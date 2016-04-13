@@ -1,0 +1,4 @@
+
+# Slate
+lecture slide editor
+

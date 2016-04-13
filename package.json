@@ -1,0 +1,30 @@
+{
+  "name": "slate",
+  "version": "0.0.1",
+  "description": "lecture slide editor",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Meanor221/CMPSC421_FinalProject.git"
+  },
+  "keywords": [
+    "lecture",
+    "slide",
+    "editor"
+  ],
+  "author": "Chris Andrejewski <christopher.andrejewski@gmail.com> (chrisandrejewski.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Meanor221/CMPSC421_FinalProject/issues"
+  },
+  "homepage": "https://github.com/Meanor221/CMPSC421_FinalProject#readme",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "multer": "^1.1.0"
+  }
+}
