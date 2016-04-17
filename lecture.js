@@ -5,6 +5,7 @@ var uuid = require('node-uuid');
 var express = require('express');
 var router = module.exports = express.Router();
 
+var validation = require('./validation');
 var dataPath = path.join(__dirname, 'lectures');
 
 router.route('/')
@@ -19,6 +20,13 @@ router.route('/')
   })
   .post(function(req, res, next) {
     var lecture = req.body;
+    var errors = validation(lecture);
+    if(errors.length) return res
+      .status(400)
+      .json({
+        success: false,
+        errors: errors,
+      });
     var key = uuid.v4();
     var filename = key;
     var filepath = path.join(dataPath, filename);
@@ -47,8 +55,16 @@ router.route('/:lectureId')
   })
   .put(function(req, res, next) {
     var id = req.params.lectureId;
+    var lecture = req.body;
+    var errors = validation(lecture);
+    if(errors.length) return res
+      .status(400)
+      .json({
+        success: false,
+        errors: errors,
+      });
     try {
-      var text = JSON.stringify(req.body);
+      var text = JSON.stringify(lecture);
       fs.writeFileSync(path.join(dataPath, id), text);
       res.json({success: true});
     } catch(error) {
