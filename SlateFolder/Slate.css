@@ -1,0 +1,71 @@
+.externalFieldset {
+	padding: 10px;
+}
+
+.internalFieldset{
+	border: solid 1px ;
+	border-radius: 3px;
+}
+
+.internalLegend{
+	border: solid 1px ;
+}
+
+#wtfCSS {
+    float: left;
+    text-align: center;
+}
+#previewDiv {
+    width: auto;
+}
+
+#entityProperties {
+    width: 45%;
+}
+div {
+    display: inline-block;
+}
+#slideDiv {
+    width: 500px;
+    height: 300px;
+    border: solid;
+    position: relative;
+}
+
+fieldset, legend{
+	text-align: center;
+	background-color: white;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 3px;
+	margin-top: 7px;
+	position: relative;
+	border: solid 2px ;
+	border-radius: 20px;
+	
+	font-weight: bold;
+	font-family: Roboto;
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+button{
+	cursor: pointer;
+	text-align: center;
+	background-color: white;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	position: relative;
+	border: solid 1.8px ;
+	border-radius: 5px;
+	
+	width: 6.5em;
+}
+
+button.hover:enabled{
+	
+	
+}
