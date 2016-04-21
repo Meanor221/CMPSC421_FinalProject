@@ -53,22 +53,25 @@
    <script>
 function createTextArea() {
     var handle = document.createElement("div");
-    handle.id="draggable";
-    handle.className="ui-widget-content";
+    handle.id="draggable2";
+    handle.className="ui-widget-content2";
     
-    var newContent = document.createTextNode("Hi there and greetings!"); 
-  handle.appendChild(newContent);
+
+    var area = document.createElement("textarea");
     
+    area.id="draggable3";
+    area.className="ui-widget-content";
     
-   
-    
-    //var area = document.createElement("textarea");
-    
-    //area.setAttribute("id","draggable3");
-    //area.setAttribute("class","ui-widget-content");
-    
-    //handle.appendChild(area); 
+    handle.appendChild(area); 
     document.body.appendChild(handle);
+    $(handle).draggable();
+    $(area).draggable();
+    $(area).resizable({
+
+      animate: true
+
+    });
+    
 }
 </script>
 
