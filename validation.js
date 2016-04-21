@@ -36,6 +36,7 @@ var lectureSchema = {
   properties: {
     id: {type: 'string'},
     name: {type: 'string'},
+    updated: {type: 'number'},
     slides: {
       type: 'array',
       items: {$ref: '/slide'}
