@@ -9,48 +9,152 @@
   <title>jQuery UI Draggable - Default functionality</title>
 
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  
 
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 
   <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
   <link rel="stylesheet" href="/resources/demos/style.css">
+    
 
   <style>
 
   #draggable { width: 150px; height: 150px; padding: 0.5em; }
-
+  #draggable2 { width: 5px; height: 5px; padding: 0.5em; }
+  #draggable3 { width: 150px; height: 150px; padding: 0.5em; left:10px;  }
+  .ui-resizable-helper { border: 1px dotted gray; }
   </style>
 
-  <script>
+ <script>
+     
 
   $(function() {
 
-    $( ".ui-widget-content" ).draggable();
+    $( ".ui-widget-content" ).draggable().resizable({
+
+      animate: true
+
+    });
+
+   $( ".ui-widget-content2" ).draggable();
+
+
 
   });
 
+     
+     
+     
+     
   </script>
 
+    
+   <script>
+function createTextArea() {
+    var handle = document.createElement("div");
+    handle.id="draggable";
+    handle.className="ui-widget-content";
+    
+    var newContent = document.createTextNode("Hi there and greetings!"); 
+  handle.appendChild(newContent);
+    
+    
+   
+    
+    //var area = document.createElement("textarea");
+    
+    //area.setAttribute("id","draggable3");
+    //area.setAttribute("class","ui-widget-content");
+    
+    //handle.appendChild(area); 
+    document.body.appendChild(handle);
+}
+</script>
+
+<script>
+    
+    function createImage() {
+    var div = document.createElement("div");
+        div.id="draggable";
+        div.className="ui-widget-content";
+   
+
+  
+    document.body.appendChild(div);
+}
+    
+    </script>
+    
+
+    
+   
+    
+    
+    
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $('input[type="file"]').change(function(e){
+            var fileName = e.target.files[0].name;
+            alert('The file "' + fileName +  '" has been selected.');
+            
+            
+            
+            var img = document.createElement("img");
+        img.src=fileName;
+        
+
+    var node =document.getElementsByName("del");
+
+        
+        
+    for (i = 0; i < node.length; i++) {    
+if (node[i].parentNode) {
+  node[i].parentNode.removeChild(node[0]);
+  node[i].parentNode.removeChild(node[0]);  
+}
+    }
+    document.getElementsByName("testImage")[0].appendChild(img);
+            
+            
+            
+            
+            
+            
+        });
+    });
+</script>
+    
+    
+    
+    
 </head>
 
 <body>
-
+    
+    <input type="file"/>
+    
+    <button type="button"  onclick="createTextArea()">Create Text</button>
+    <button type="button" onclick="createImage()">Create Image</button>
  
-<div id="draggable" class="ui-widget-content">
 
-  <p>Test</p>
-
-</div>
     
 <div id="draggable" class="ui-widget-content">
 
   <p>Drag me around</p>
 
 </div>
-
+    <div id="draggable2" class="ui-widget-content2">X
+    <textarea id="draggable3" class="ui-widget-content">Plz Work</textarea>
+    </div>
  
-
+<div id="draggable" class="ui-widget-content" name="testImage">
+    <input name="del" type="file"></button>
+    <button name="del">URL</button>
+    
+    </div>
+    
+    
  
 
 </body>
