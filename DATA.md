@@ -25,5 +25,8 @@ Slide
 Lecture
   id Unique<String>
   name String
+  instructor String
+  course String
+  theme String
   slides Array<Slide>
 ```

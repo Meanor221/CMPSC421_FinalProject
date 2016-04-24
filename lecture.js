@@ -44,6 +44,11 @@ router.route('/')
   })
   .post(function(req, res, next) {
     var lecture = req.body;
+    var key = uuid.v4();
+    var filename = key;
+    lecture.id = filename;
+    lecture.slides = [];
+    lecture.updated = Date.now();
     var errors = validation(lecture);
     if(errors.length) return res
       .status(400)
@@ -51,10 +56,6 @@ router.route('/')
         success: false,
         errors: errors,
       });
-    var key = uuid.v4();
-    var filename = key;
-    lecture.id = filename;
-    lecture.updated = Date.now();
     var filepath = path.join(dataPath, filename);
     fs.writeFile(filepath, JSON.stringify(lecture), function(error) {
       if(error) return next(error);
@@ -87,6 +88,7 @@ router.route('/:lectureId')
   .put(function(req, res, next) {
     var id = req.params.lectureId;
     var lecture = req.body;
+    lecture.updated = Date.now();
     var errors = validation(lecture);
     if(errors.length) return res
       .status(400)

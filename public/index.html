@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+  <title>Slate</title>
+  <link rel='stylesheet' href='slate.css'>
+</head>
+<body>
+  <div id='errors'></div>
+  <div id='home-view'>
+    <div class='view-center'>
+      <h1>Slate</h1>
+      <div class='lecture-group'>
+        <div class='lecture-list-item'>
+          <button id='create-lecture' class='button button-primary button-large'>Create new lecture</button>
+        </div>
+        <div class='lecture-list'></div>
+      </div>
+    </div>
+  </div>
+  <div id='lecture-view' class='hidden'>
+    <div class='lecture-header'>
+      <div class='side-actions'>
+        <button id='home-button' class='action-button nav-item'>&larr; Home</button>
+      </div>
+      <div class='main-actions'>
+        <button id='create-slide' class='action-button'>Create slide</button>
+        <button id='create-text' class='action-button'>Create text</button>
+        <button id='create-image' class='action-button'>Insert image</button>
+      </div>
+    </div>
+    <div class='lecture-content'>
+      <div class='lecture-side'>
+        <div class='lecture-metadata'>
+          <div class='side-form'>
+            <label>
+              <span>Lecture name</span>
+              <input name='name' type='text'/>
+            </label>
+            <label>
+              <span>Instructor name</span>
+              <input name='instructor' type='text'/>
+            </label>
+            <label>
+              <span>Course name</span>
+              <input name='course' type='text'/>
+            </label>
+          </div>
+        </div>
+        <div class='lecture-slide-list'></div>
+      </div>
+      <div class='lecture-editor'>
+        <div id='slide'></div>
+      </div>
+    </div>
+  </div>
+  <script src='/scripts/vendor/jquery.min.js'></script>
+  <script src='/scripts/vendor/jquery-ui.min.js'></script>
+  <script src='/scripts/vendor/superagent.js'></script>
+  <script src='/scripts/vendor/markdown.js'></script>
+  <script src='/scripts/vendor/relative-date.js'></script>
+  <script src='/scripts/application.js'></script>
+  <script src='/scripts/home-view.js'></script>
+  <script src='/scripts/lecture-view.js'></script>
+</body>
+</html>
+

@@ -36,6 +36,9 @@ var lectureSchema = {
   properties: {
     id: {type: 'string'},
     name: {type: 'string'},
+    instructor: {type: 'string'},
+    course: {type: 'string'},
+    theme: {type: 'string'},
     updated: {type: 'number'},
     slides: {
       type: 'array',
@@ -46,6 +49,6 @@ var lectureSchema = {
 };
 
 module.exports = function(lecture) {
-  return v(lecture, lectureSchema).errors;
+  return v.validate(lecture, lectureSchema).errors;
 }
 
