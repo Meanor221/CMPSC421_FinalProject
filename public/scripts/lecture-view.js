@@ -23,15 +23,38 @@ var lectureState = (function lectureState() {
     persist();
   }
 
+  function getCurrentSlide() {
+    var editor = editorState.get();
+    var slideId = editor.currentSlide;
+    return state.slides
+      .filter(function(s) {s.id === slideId})
+      .pop();
+  }
+
+  function setCurrentSlide(slide) {
+    var editor = editorState.get();
+    var slideId = editor.currentSlide;
+    if(!slideId) return;
+    state.slides = state.slides
+      .map(function(s) {
+        return s.id === slideId ? slide : s;
+      });
+    persist();
+  }
+
   return {
     getLecture: getLecture,
     setLecture: setLecture,
+
+    getCurrentSlide: getCurrentSlide,
+    setCurrentSlide: setCurrentSlide,
   };
 }).call(this);
 
 var editorState = (function editorState() {
   var state = {
     currentSlide: null,
+    focusedComponent: null,
   };
 
   var listeners = [];
@@ -106,9 +129,86 @@ function renderLecture(lecture, editor) {
 
   // render slide
   var $slide = $lec.find('#slide');
-  
+  var dragOptions = {
+    containment: $slide[0],
+  };
+  var resizeOptions = {
+    containment: $slide[0],
+  };
+ 
+  function isFocused(component) {
+    return component.id === editor.focusedComponent;
+  }
+
   // render everything in the slide
+  slide.components.forEach(function(component) {
+    var $component = $("<div class='component'></div>");
+      .attr('data-id', component.id);
+      .css({
+        top: component.y,
+        left: component.x,
+        width: component.width,
+        height: component.height,
+      })
+      .draggable(dragOptions)
+      .resizable(resizeOptions);
+    if(component.type === 'image') {
+      var image = component;
+      var img;
+      if(!image.data) {
+        // show url/file upload
+        img = $([
+          '<div class="component-image-form">',
+            '<button class="x-url-insert">Insert by URL</button>',
+            '<form>',
+              '<input class="x-file-upload" type="file"/>',
+            '</form>',
+          '</div>'
+        ].join(''));
+      } else if(image.data.indexOf('http') === 0) {
+        // show external image by url
+        img = document.createElement('img');
+        img.src = image.data;
+        img.className = 'component-image';
+      } else {
+        // show uploaded image by key
+        img = document.createElement('img');
+        img.src = '/images/'+image.data;
+        img.className = 'component-image';
+      }
+      $component.append(img);
+    } else if (component.type === 'text') {
+      throw 'not yet';
+    } else {
+      throw new Error('component.type "'+component.type+'" invalid.');
+    }
+    $slide.append($component);
+  });
 }
+
+$(document).on('click', '.component .x-url-insert', function(e) {
+  var id = $(this).closest('.component').attr('data-id');
+  var component = lectureState.getComponentById(id);
+  var url = 'x';
+  while(url && url.indexOf('http')) {
+    url = prompt('Please enter the URl of the image (include http*):');
+  }
+  if(!url) return;
+  component.data = url;
+  lectureState.setComponent(component);
+  reflect();
+});
+
+$(document).on('change', '.component .x-file-upload', function(e) {
+  var id = $(this).closest('.component').attr('data-id');
+  var component = lectureState.getComponentById(id);
+  var formData = new FormData($(this).closest('form'));
+  uploadImageForm(formData, function(key) {
+    component.data = key;
+    lectureState.setComponent(component);
+    reflect();
+  });
+});
 
 function reflect() {
   renderLecture(commit(), editorState.get());
@@ -119,6 +219,44 @@ $('#create-slide').on('click', function(e) {
   var n = lecture.slides.length + 1;
   lecture.slides.push(defaultSlide('New Slide '+n));
   renderLecture(commit(), editorState.get());
+});
+
+function defaultText(text) {
+  return {
+    id: uuid,
+    type: 'text',
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+    data: text,
+  };
+}
+
+$('#create-text').on('click', function(e) {
+  var slide = lectureState.getCurrentSlide();
+  slide.components.push(defaultText());
+  lectureState.setCurrentSlide(slide);
+  reflect();
+});
+
+function defaultImage(url) {
+  return {
+    id: uuid(),
+    type: 'image',
+    x: 0,
+    y: 0,
+    width: 400,
+    height: 200,
+    data: url,
+  };
+}
+
+$('#create-image').on('click', function(e) {
+  var slide = lectureState.getCurrentSlide();
+  slide.components.push(defaultImage());
+  lectureState.setCurrentSlide(slide);
+  reflect();
 });
 
 $(document).on('blur', '.lecture-metadata input', function(e) {
@@ -185,9 +323,13 @@ function recordLecture(lecture) {
   return lecture;
 }
 
+function uuid() {
+  return Math.floor(Date.now() + (Math.random() * Date.now())).toString(16),
+}
+
 function defaultSlide(name) {
   return {
-    id: Math.floor(Date.now() + (Math.random() * Date.now())).toString(16),
+    id: uuid(),
     name: name || 'First Slide',
     components: [], 
   };
