@@ -3,10 +3,12 @@
 
 ```
 Component
+  id String
   x Number
   y Number
   width Number
   height Number
+  type String
   
 Markdown :< Component
   content String
