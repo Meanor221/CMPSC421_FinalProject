@@ -6,15 +6,12 @@ var componentSchema = {
   id: '/component',
   type: 'object',
   properties: {
-    id: {type: 'string'},
     x: {type: 'number'},
     y: {type: 'number'},
     width: {type: 'number'},
     height: {type: 'number'},
-    type: {type: 'string'},
-    data: {type: 'string'},
   },
-  required: ['id', 'x', 'y', 'width', 'height', 'type'],
+  required: ['x', 'y', 'width', 'height'],
 };
 v.addSchema(componentSchema);
 
