@@ -20,7 +20,7 @@ var itemViews = [];
         next(null, {
           id: data.id,
           name: data.name,
-          updated: Date(data.updated)
+          updated: new Date(data.updated),
         });
       });
     }, function(error, views) {

@@ -7,7 +7,7 @@ var package = require('./package');
 var app = express();
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+// app.use(bodyParser.urlencoded({extended: false}));
 
 app.use('/lectures', require('./lecture'));
 app.use('/images', require('./image'));

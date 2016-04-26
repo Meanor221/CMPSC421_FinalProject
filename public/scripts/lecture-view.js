@@ -67,6 +67,22 @@ var lectureState = (function lectureState() {
     persist();
   }
 
+  function getComponentById(id) {
+    var slide = getCurrentSlide();
+    return slide.components
+      .filter(function(c) {return c.id === id;})
+      .pop();
+  }
+
+  function setComponent(component) {
+    var slide = getCurrentSlide();
+    slide.components = slide.components
+      .map(function(c) {
+        return c.id === component.id ? component : c;
+      });
+    persist();
+  }
+
   return {
     getLecture: getLecture,
     setLecture: setLecture,
@@ -74,6 +90,8 @@ var lectureState = (function lectureState() {
     setCurrentSlide: setCurrentSlide,
     getCurrentComponent: getCurrentComponent,
     setCurrentComponent: setCurrentComponent,
+    getComponentById: getComponentById,
+    setComponent: setComponent,
   };
 }).call(this);
 
@@ -194,7 +212,7 @@ function renderLecture(lecture, editor) {
           '<div class="component-image-form">',
             '<button class="x-url-insert">Insert by URL</button>',
             '<form>',
-              '<input class="x-file-upload" type="file"/>',
+              '<input class="x-file-upload" type="file" name="image"/>',
             '</form>',
           '</div>'
         ].join(''));
@@ -255,7 +273,7 @@ $(document).on('click', '#slide', function(e) {
 
 $(document).on('click', '.component, .component *', function(e) {
   var $target = $(e.target);
-  if($target.is('textarea')) return;
+  if($target.is('textarea, input')) return;
   var $component = $target.is('.component') 
     ? $target
     : $target.closest('.component');
@@ -276,12 +294,31 @@ $(document).on('click', '.component .x-url-insert', function(e) {
   update();
 });
 
+function uploadImageForm(formData, next) {
+  $.ajax({
+    method: 'POST',
+    url: '/images',
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function(data) {
+      next(data.id);
+    },
+    error: function() {
+      throw new Error('Image upload failed');
+    }
+  });
+}
+
 $(document).on('change', '.component .x-file-upload', function(e) {
-  var component = lectureState.getCurrentComponent();
-  var formData = new FormData($(this).closest('form'));
+  var $component = $(e.target).closest('.component');
+  var id = $component.attr('data-id');
+  var component = lectureState.getComponentById(id);
+
+  var formData = new FormData($(e.target).closest('form')[0]);
   uploadImageForm(formData, function(key) {
     component.data = key;
-    lectureState.setCurrentComponent(component);
+    lectureState.setComponent(component);
     update();
   });
 });
