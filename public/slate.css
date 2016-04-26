@@ -250,3 +250,46 @@ body {
   height: 480px;
 }
 
+.component {
+  position: absolute;
+  border: 2px solid transparent;
+}
+
+.component.current {
+  border: 2px dashed #ddd;
+  background-color: #fcfcfc;
+}
+
+.component-image-form {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #eee;
+}
+
+.component-image-form input {
+  margin-left: 10px;
+}
+
+.component-image {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+}
+
+.component-textbox {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  font-size: 1em;
+  font-family: inherit;
+}
+
